@@ -36,7 +36,7 @@ campsiteRouter.route('/:campsiteId')
     res.end('POST not supported');
 })
 .put((req, res) => {
-    res.end(`Updating the campsite with new name: ${req.body.name}
+    res.end(`Updating the campsite ${req.params.campsiteId} with new name: ${req.body.name}
         and description: ${req.body.description}`);
 })
 .delete((req, res) => {
