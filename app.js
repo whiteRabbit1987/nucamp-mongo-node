@@ -41,7 +41,7 @@ function auth(req, res, next) {
     return next(err);
   }
 
-  const auth = Buffer.from(authHeader.split('')[1], 'base64').toString().split(':');
+  const auth = Buffer.from(authHeader.split(' ')[1], 'base64').toString().split(':');
   const user = auth[0];
   const pass = auth[1];
   if (user === 'admin' && pass === 'password') {
