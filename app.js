@@ -46,11 +46,11 @@ app.use(session({
   store: new FileStore()
 }));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
 
 function auth(req, res, next) {
   console.log(req.user);
