@@ -2,3 +2,4 @@ node_modules
 startMongoDB
 bin/server.cert
 bin/server.key
+config.js

@@ -8,6 +8,32 @@ const jwt = require('jsonwebtoken'); // create; sign and verify tokens
 
 const config = require('./config');
 
+const FacebookTokenStrategy = require('passport-facebook-token');
+
+exports.facebookPassport = passport.use(
+    new FacebookTokenStrategy(
+        {
+            clientID: config.facebook.clientId,
+            clientSecret: config.facebook.clientSecret
+        },
+        (accessToken, refreshToken, profile, done) => {
+            User.findOne({ facebookId: profile.id })
+            .then((user) => {
+                if (user) {
+                    return done(null, user);
+                } else {
+                    let newUser = new User({ username: profile.displayName });
+                    newUser.facebookId = profile.id;
+                    newUser.firstname = profile.name.givenName;
+                    newUser.lastname = profile.name.familyName;
+                    return newUser.save().then((user) => done(null, user));
+                }
+            })
+            .catch((err) => done(err, false));
+        }
+    )
+);
+
 exports.local = passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
